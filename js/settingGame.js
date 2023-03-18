@@ -38,19 +38,19 @@ export const startGame = (difficult) => {
   const gameTable = document.createElement("div");
   const cards = newColorArray(difficult);
   const duplicateCards = concatArr(cards);
-  const restartBtn = document.createElement("button");
 
   difContainer.innerHTML = "";
-
-  restartBtn.textContent = "Рестарт";
   gameTable.classList.add(
     "game-table",
     "row",
-    "row-cols-3",
-    "justify-content-md-center"
+    "row-cols-5",
+    "justify-content-center"
   );
   gameTable.style.cssText = `--bs-columns: 2`;
-  restartBtn.classList.add("btn", "btn-primary", "btn-lg");
+
+  const restartBtn = document.createElement("button");
+  restartBtn.textContent = "Начать заново";
+  restartBtn.classList.add("btn", "btn-primary", "btn-lg", "my-5");
   shuffle(duplicateCards);
 
   duplicateCards.forEach((item) => {
@@ -59,7 +59,7 @@ export const startGame = (difficult) => {
 
   difContainer.append(gameTable, restartBtn);
 
-  const cardsPlate = document.querySelectorAll(".main");
+  const cardsPlate = document.querySelectorAll(".main", "col-md-auto");
 
   let interval = (difficult / 1.5) * 100;
 
