@@ -12,7 +12,7 @@ export const settingGame = () => {
   const changeDifficulty = (difficulty) => {
     const button = document.createElement("button");
 
-    button.classList.add("btn-difficulty", "btn", "btn-primary");
+    button.classList.add("btn-difficulty", "btn", "btn-primary", "btn-lg");
     button.textContent = `${difficulty} плиток`;
     button.addEventListener("click", () => startGame(difficulty));
     return button;
@@ -72,9 +72,11 @@ export const startGame = (difficult) => {
     }
   }, interval);
 
-  restartBtn.addEventListener("click", settingGame);
+  restartBtn.addEventListener("click", () => {
+    settingGame();
+  });
 
-  cardsPlate.forEach((card, index) =>
+  cardsPlate.forEach((card, index) => {
     card.addEventListener("click", () => {
       if (clickable == true && !card.classList.contains("success")) {
         card.classList.add("flip");
@@ -102,7 +104,7 @@ export const startGame = (difficult) => {
               firstCard = null;
               secondCard = null;
               clickable = true;
-            }, 1000);
+            }, 500);
           } else {
             setTimeout(() => {
               cardsPlate[firstCard].classList.remove("flip");
@@ -114,7 +116,18 @@ export const startGame = (difficult) => {
           }
         }
       }
-    })
-  );
+    }),
+      card.addEventListener("transitionend", () => {
+        const childrens = document.querySelectorAll(".success");
+        if (childrens.length == difficult) {
+          const win = document.querySelector(".win");
+          win.style.display = "block";
+          win.append(restartBtn);
+          restartBtn.addEventListener("click", () => {
+            (win.style.display = "none"), settingGame(), restartBtn.remove();
+          });
+        }
+      });
+  });
 };
 game();
